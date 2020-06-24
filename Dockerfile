@@ -1,4 +1,4 @@
-FROM bash
+FROM ubuntu
 RUN apt-get update
 RUN apt-get -y install cppcheck
 
