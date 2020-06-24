@@ -41,7 +41,7 @@ command = ""
 
 def prepare_command():
     global command
-    command = command + "cppcheck ./include ./src "
+    command = command + "cppcheck ./src -I./include -I./ext --error-exitcode=1"
     # check every flags
 
     if CHECK_LIBRARY == 'enable':
