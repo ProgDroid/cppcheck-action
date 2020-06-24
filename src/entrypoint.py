@@ -34,7 +34,6 @@ INCONCLUSIVE = os.environ['INPUT_INCONCLUSIVE'] or 'enable'
 INLINE_SUPPRESSION = os.environ['INPUT_INLINE_SUPPRESSION'] or 'disable'
 FORCE_LANGUAGE = os.environ['INPUT_FORCE_LANGUAGE'] or 'disable'
 MAX_CTU_DEPTH = os.environ['INPUT_MAX_CTU_DEPTH'] or 'disable'
-OUTPUT_FILE = os.environ['INPUT_OUTPUT_FILE'] or 'cppcheck_report.txt'
 PLATFORM = os.environ['INPUT_PLATFORM'] or 'disable'
 
 command = ""
@@ -92,42 +91,9 @@ def prepare_command():
     if PLATFORM != 'disable':
         command = command + f" --platform={PLATFORM}"
 
-    out_file = OUTPUT_FILE
-
-
 def run_cppcheck():
     global command
-    command = command + f" --output-file={out_file} . 2>cppcheck_error.txt"
     sp.call(command, shell=True)
-
-
-def commit_changes():
-    """Commits changes.
-    """
-    set_email = 'git config --local user.email "flawfinder-action@master"'
-    set_user = 'git config --local user.name "flawfinder-action"'
-
-    sp.call(set_email, shell=True)
-    sp.call(set_user, shell=True)
-
-    git_checkout = f'git checkout {TARGET_BRANCH}'
-    git_add = f'git add {out_file} cppcheck_error.txt'
-    git_commit = 'git commit -m "cppcheck report added/updated"'
-    print('Committing reports.......')
-
-    sp.call(git_checkout, shell=True)
-    sp.call(git_add, shell=True)
-    sp.call(git_commit, shell=True)
-
-
-def push_changes():
-    """Pushes commit.
-    """
-    set_url = f'git remote set-url origin https://x-access-token:{GITHUB_TOKEN}@github.com/{TARGET_REPOSITORY}'
-    git_push = f'git push origin {TARGET_BRANCH}'
-    sp.call(set_url, shell=True)
-    sp.call(git_push, shell=True)
-
 
 def main():
 
@@ -136,9 +102,6 @@ def main():
 
     prepare_command()
     run_cppcheck()
-    commit_changes()
-    push_changes()
-
 
 if __name__ == '__main__':
     main()
