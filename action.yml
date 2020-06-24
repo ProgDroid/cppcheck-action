@@ -52,10 +52,6 @@ inputs:
     default: "disable"
     required: false
 
-  output_file:
-    description: " files where the result to be dumped"
-    default: "cppcheck_report.txt"
-    required: false
   target_branch:
     description: "Branch that the badge will target. Defaults to the current branch."
     default: ""
