@@ -41,7 +41,6 @@ command = ""
 
 def prepare_command():
     global command
-    global out_file
     command = command + "cppcheck "
     # check every flags
 
