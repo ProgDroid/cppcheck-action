@@ -90,17 +90,14 @@ def prepare_command():
     if PLATFORM != 'disable':
         command = command + f" --platform={PLATFORM}"
 
-def run_cppcheck():
-    global command
-    sp.call(command, shell=True)
-
 def main():
 
     if (GITHUB_EVENT_NAME == 'pull_request') and (GITHUB_ACTOR != GITHUB_REPOSITORY_OWNER):
         return
 
     prepare_command()
-    run_cppcheck()
+    global command
+    return sp.call(command, shell=True)
 
 if __name__ == '__main__':
     main()
