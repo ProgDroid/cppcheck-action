@@ -41,7 +41,7 @@ command = ""
 
 def prepare_command():
     global command
-    command = command + "cppcheck "
+    command = command + "cppcheck include source"
     # check every flags
 
     if CHECK_LIBRARY == 'enable':
